@@ -1,0 +1,6 @@
+[default]
+port = 8000
+address = "127.0.0.1"
+
+[default.databases.sqlite_db]
+url = "sqlite:./database/todos.db"
