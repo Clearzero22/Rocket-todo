@@ -1,6 +1,7 @@
 # 自动处理所有文本文件的行尾符
 * text=auto
-
+# 如果有特殊文件需要保留 CRLF（比如 Windows 下的批处理脚本 *.bat）
+*.bat text eol=crlf
 # Rust 源代码文件
 *.rs text diff=rust
 *.toml text
