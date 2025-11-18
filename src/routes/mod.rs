@@ -1,10 +1,12 @@
 pub mod todo_routes;
 pub mod auth_routes;
 pub mod tag_routes;
+pub mod subtask_routes;
 
 pub use todo_routes::*;
 pub use auth_routes::*;
 pub use tag_routes::*;
+pub use subtask_routes::*;
 
 use utoipa::OpenApi;
 
@@ -27,6 +29,16 @@ use utoipa::OpenApi;
         crate::routes::tag_routes::remove_tag_from_todo,
         crate::routes::tag_routes::get_todo_tags,
         crate::routes::tag_routes::get_todos_by_tag,
+        crate::routes::subtask_routes::get_subtasks_by_todo,
+        crate::routes::subtask_routes::get_todo_with_subtasks,
+        crate::routes::subtask_routes::get_subtask,
+        crate::routes::subtask_routes::create_subtask,
+        crate::routes::subtask_routes::create_subtask_for_todo,
+        crate::routes::subtask_routes::update_subtask,
+        crate::routes::subtask_routes::delete_subtask,
+        crate::routes::subtask_routes::get_subtasks_by_status,
+        crate::routes::subtask_routes::get_overdue_subtasks,
+        crate::routes::subtask_routes::reorder_subtasks,
         crate::routes::auth_routes::register,
         crate::routes::auth_routes::login,
         crate::routes::auth_routes::logout,
@@ -47,6 +59,12 @@ use utoipa::OpenApi;
             crate::models::TodoTag,
             crate::models::AddTagRequest,
             crate::models::TodoWithTagsResponse,
+            crate::models::Subtask,
+            crate::models::SubtaskResponse,
+            crate::models::CreateSubtaskRequest,
+            crate::models::UpdateSubtaskRequest,
+            crate::models::TodoWithSubtasksResponse,
+            crate::models::ReorderSubtasksRequest,
             crate::models::User,
             crate::models::CreateUserRequest,
             crate::models::LoginRequest,
@@ -57,6 +75,7 @@ use utoipa::OpenApi;
     tags(
         (name = "todos", description = "Todo management endpoints"),
         (name = "tags", description = "Tag management endpoints"),
+        (name = "subtasks", description = "Subtask management endpoints"),
         (name = "auth", description = "Authentication endpoints")
     ),
     security(

@@ -108,7 +108,18 @@ fn rocket() -> _ {
                 routes::tag_routes::add_tag_to_todo,
                 routes::tag_routes::remove_tag_from_todo,
                 routes::tag_routes::get_todo_tags,
-                routes::tag_routes::get_todos_by_tag
+                routes::tag_routes::get_todos_by_tag,
+                // Subtask 路由 (需要认证)
+                routes::subtask_routes::get_subtasks_by_todo,
+                routes::subtask_routes::get_todo_with_subtasks,
+                routes::subtask_routes::get_subtask,
+                routes::subtask_routes::create_subtask,
+                routes::subtask_routes::create_subtask_for_todo,
+                routes::subtask_routes::update_subtask,
+                routes::subtask_routes::delete_subtask,
+                routes::subtask_routes::get_subtasks_by_status,
+                routes::subtask_routes::get_overdue_subtasks,
+                routes::subtask_routes::reorder_subtasks
             ],
         )
 }
