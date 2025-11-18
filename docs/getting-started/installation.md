@@ -428,16 +428,16 @@ curl http://127.0.0.1:8000/config
 
 安装完成后，您可以：
 
-1. 阅读 [API 文档](API.md) 了解所有端点
-2. 查看 [开发指南](DEVELOPMENT.md) 开始开发
-3. 参考 [配置指南](CONFIGURATION.md) 自定义配置
+1. 阅读 [API 文档](../guides/api-reference.md) 了解所有端点
+2. 查看 [开发指南](../guides/development-guide.md) 开始开发
+3. 参考 [配置指南](../guides/configuration-guide.md) 自定义配置
 4. 运行测试确保一切正常
 
 ## 获取帮助
 
 如果遇到问题：
 
-1. 查看 [常见问题](FAQ.md)
+1. 查看 [常见问题](../resources/faq.md)
 2. 检查 [GitHub Issues](../../issues)
 3. 参与 [Discussions](../../discussions)
 4. 阅读 [Rocket 官方文档](https://rocket.rs/)
