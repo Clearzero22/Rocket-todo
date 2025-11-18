@@ -23,6 +23,9 @@ once_cell = "1.19"
 
 reqwest = { version = "0.12", features = ["json"] }
 tokio = { version = "1", features = ["full"] }
+# JWT 认证依赖
+jsonwebtoken = "9.3"
+argon2 = "0.5"
 
 [profile.release]
 opt-level = "z"  # 优化为最小体积（推荐）

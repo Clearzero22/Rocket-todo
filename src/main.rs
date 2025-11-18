@@ -6,6 +6,7 @@ mod handlers;
 mod models;
 mod routes;
 mod telemetry;
+mod auth;
 
 use rocket::serde::json::Json;
 use rocket::serde::{Deserialize, Serialize};
@@ -85,6 +86,12 @@ fn rocket() -> _ {
         .mount(
             "/api",
             routes![
+                // 认证路由 (公开)
+                routes::auth_routes::register,
+                routes::auth_routes::login,
+                routes::auth_routes::logout,
+                routes::auth_routes::me,
+                // Todo 路由 (需要认证)
                 routes::todo_routes::get_all_todos,
                 routes::todo_routes::get_todo,
                 routes::todo_routes::get_todos_by_status,

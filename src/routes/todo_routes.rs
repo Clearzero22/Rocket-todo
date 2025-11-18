@@ -9,6 +9,7 @@ use rocket::serde::json::Json;
 use crate::database::Db;
 use crate::handlers::todo_handler;
 use crate::models::{CreateTodoRequest, TodoResponse, UpdateTodoRequest};
+use crate::auth::jwt::JwtAuth;
 use rocket_db_pools::Connection;
 
 #[utoipa::path(get, path = "/api/todos", tag = "todos", responses(
@@ -17,6 +18,7 @@ use rocket_db_pools::Connection;
 #[get("/todos")]
 pub async fn get_all_todos(
     mut db: Connection<Db>,
+    auth: JwtAuth,
 ) -> Result<Json<Vec<TodoResponse>>, status::Custom<Json<serde_json::Value>>> {
     match todo_handler::get_all_todos(db).await {
         Ok(todos) => Ok(todos),
@@ -40,6 +42,7 @@ pub async fn get_all_todos(
 pub async fn get_todo(
     mut db: Connection<Db>,
     id: i64,
+    auth: JwtAuth,
 ) -> Result<Json<TodoResponse>, status::Custom<Json<serde_json::Value>>> {
     match todo_handler::get_todo(db, id).await {
         Ok(todo) => Ok(todo),
@@ -62,6 +65,7 @@ pub async fn get_todo(
 pub async fn get_todos_by_status(
     mut db: Connection<Db>,
     status: String,
+    auth: JwtAuth,
 ) -> Result<Json<Vec<TodoResponse>>, status::Custom<Json<serde_json::Value>>> {
     match todo_handler::get_todos_by_status(db, status).await {
         Ok(todos) => Ok(todos),
@@ -82,6 +86,7 @@ pub async fn get_todos_by_status(
 pub async fn create_todo(
     mut db: Connection<Db>,
     request: Json<CreateTodoRequest>,
+    auth: JwtAuth,
 ) -> Result<status::Created<Json<TodoResponse>>, status::Custom<Json<serde_json::Value>>> {
     match todo_handler::create_todo(db, request).await {
         Ok(todo) => Ok(status::Created::new("/todos").body(todo)),
@@ -106,6 +111,7 @@ pub async fn update_todo(
     mut db: Connection<Db>,
     id: i64,
     request: Json<UpdateTodoRequest>,
+    auth: JwtAuth,
 ) -> Result<Json<TodoResponse>, status::Custom<Json<serde_json::Value>>> {
     match todo_handler::update_todo(db, id, request).await {
         Ok(todo) => Ok(todo),
@@ -129,6 +135,7 @@ pub async fn update_todo(
 pub async fn delete_todo(
     mut db: Connection<Db>,
     id: i64,
+    auth: JwtAuth,
 ) -> Result<status::NoContent, status::Custom<Json<serde_json::Value>>> {
     match todo_handler::delete_todo(db, id).await {
         Ok(_) => Ok(status::NoContent),
@@ -151,6 +158,7 @@ pub async fn delete_todo(
 pub async fn get_todos_by_priority(
     mut db: Connection<Db>,
     priority: String,
+    auth: JwtAuth,
 ) -> Result<Json<Vec<TodoResponse>>, status::Custom<Json<serde_json::Value>>> {
     // Validate priority
     if !["low", "medium", "high"].contains(&priority.to_lowercase().as_str()) {
