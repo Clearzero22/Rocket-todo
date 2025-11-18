@@ -61,7 +61,7 @@ pub async fn get_todo(
 ), responses(
     (status = 200, description = "List by status", body = [TodoResponse])
 ))]
-#[get("/todos/status/<status>")]
+#[get("/todos/by-status/<status>", rank = 2)]
 pub async fn get_todos_by_status(
     mut db: Connection<Db>,
     status: String,
@@ -154,7 +154,7 @@ pub async fn delete_todo(
 ), responses(
     (status = 200, description = "List by priority", body = [TodoResponse])
 ))]
-#[get("/todos/priority/<priority>")]
+#[get("/todos/by-priority/<priority>", rank = 2)]
 pub async fn get_todos_by_priority(
     mut db: Connection<Db>,
     priority: String,

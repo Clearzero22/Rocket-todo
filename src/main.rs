@@ -98,7 +98,17 @@ fn rocket() -> _ {
                 routes::todo_routes::get_todos_by_priority,
                 routes::todo_routes::create_todo,
                 routes::todo_routes::update_todo,
-                routes::todo_routes::delete_todo
+                routes::todo_routes::delete_todo,
+                // Tag 路由 (需要认证)
+                routes::tag_routes::get_all_tags,
+                routes::tag_routes::get_tag,
+                routes::tag_routes::create_tag,
+                routes::tag_routes::update_tag,
+                routes::tag_routes::delete_tag,
+                routes::tag_routes::add_tag_to_todo,
+                routes::tag_routes::remove_tag_from_todo,
+                routes::tag_routes::get_todo_tags,
+                routes::tag_routes::get_todos_by_tag
             ],
         )
 }

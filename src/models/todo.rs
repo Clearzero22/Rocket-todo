@@ -10,6 +10,7 @@ pub struct Todo {
     pub description: Option<String>,
     pub status: String,
     pub priority: String,
+    pub due_date: Option<NaiveDateTime>,
     pub created_at: Option<NaiveDateTime>,
     pub updated_at: Option<NaiveDateTime>,
 }
@@ -72,6 +73,7 @@ pub struct CreateTodoRequest {
     pub description: Option<String>,
     pub priority: Option<Priority>,
     pub status: Option<Status>,
+    pub due_date: Option<NaiveDateTime>,
 }
 
 #[derive(Debug, Deserialize, ToSchema)]
@@ -80,6 +82,7 @@ pub struct UpdateTodoRequest {
     pub description: Option<String>,
     pub status: Option<Status>,
     pub priority: Option<Priority>,
+    pub due_date: Option<NaiveDateTime>,
 }
 
 #[derive(Debug, Serialize, ToSchema)]
@@ -89,6 +92,7 @@ pub struct TodoResponse {
     pub description: Option<String>,
     pub status: String,
     pub priority: String,
+    pub due_date: Option<DateTime<Utc>>,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }
@@ -101,6 +105,7 @@ impl From<Todo> for TodoResponse {
             description: todo.description,
             status: todo.status,
             priority: todo.priority,
+            due_date: todo.due_date.map(|dt| DateTime::from_naive_utc_and_offset(dt, Utc)),
             created_at: todo
                 .created_at
                 .map(|dt| DateTime::from_naive_utc_and_offset(dt, Utc))
@@ -119,6 +124,7 @@ impl Todo {
         description: Option<String>,
         priority: Priority,
         status: Status,
+        due_date: Option<NaiveDateTime>,
     ) -> Self {
         let now = Utc::now().naive_utc();
         Self {
@@ -127,6 +133,7 @@ impl Todo {
             description,
             status: status.as_str().to_string(),
             priority: priority.as_str().to_string(),
+            due_date,
             created_at: Some(now),
             updated_at: Some(now),
         }
@@ -151,6 +158,10 @@ impl Todo {
             self.priority = priority.as_str().to_string();
         }
 
+        if let Some(due_date) = update.due_date {
+            self.due_date = Some(due_date);
+        }
+
         self.updated_at = Some(now);
     }
 
@@ -164,5 +175,24 @@ impl Todo {
 
     pub fn get_status(&self) -> Option<Status> {
         Status::from_str(&self.status)
+    }
+
+    pub fn is_overdue(&self) -> bool {
+        if let Some(due_date) = self.due_date {
+            let now = Utc::now().naive_utc();
+            due_date < now && !self.is_completed()
+        } else {
+            false
+        }
+    }
+
+    pub fn is_due_soon(&self, days: i64) -> bool {
+        if let Some(due_date) = self.due_date {
+            let now = Utc::now().naive_utc();
+            let threshold = now + chrono::Duration::days(days);
+            due_date <= threshold && due_date >= now && !self.is_completed()
+        } else {
+            false
+        }
     }
 }
