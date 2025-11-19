@@ -27,6 +27,19 @@ tokio = { version = "1", features = ["full"] }
 jsonwebtoken = "9.3"
 argon2 = "0.5"
 
+# 服务层和验证依赖
+thiserror = "1.0"
+validator = { version = "0.18", features = ["derive"] }
+regex = "1.10"
+async-trait = "0.1"
+
+# 配置管理依赖
+config = "0.14"
+dotenvy = "0.15"
+
+# 缓存依赖（后续使用）
+redis = { version = "0.24", features = ["tokio-comp"], optional = true }
+
 [profile.release]
 opt-level = "z"  # 优化为最小体积（推荐）
 # 或者 "s" 也是体积优化，与 z 类似
